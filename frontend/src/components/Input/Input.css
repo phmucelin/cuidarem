@@ -1,0 +1,126 @@
+.input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.input-full {
+    width: 100%;
+}
+
+.input-label {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.input-required {
+    color: var(--color-error);
+    margin-left: 2px;
+}
+
+.input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: var(--spacing-md);
+    color: var(--text-muted);
+    font-size: var(--font-size-lg);
+    pointer-events: none;
+    transition: color var(--transition-fast);
+}
+
+.input-field {
+    width: 100%;
+    padding: var(--spacing-md);
+    padding-left: var(--spacing-md);
+    font-family: var(--font-family);
+    font-size: var(--font-size-md);
+    color: var(--text-primary);
+    background: var(--bg-card);
+    border: 2px solid transparent;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-fast);
+    min-height: 48px;
+}
+
+.input-container:has(.input-icon) .input-field {
+    padding-left: calc(var(--spacing-md) + 24px + var(--spacing-sm));
+}
+
+.input-field::placeholder {
+    color: var(--text-muted);
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: var(--color-coral);
+    box-shadow: 0 0 0 3px rgba(249, 123, 92, 0.15);
+}
+
+.input-focused .input-icon {
+    color: var(--color-coral);
+}
+
+/* Error state */
+.input-error .input-field {
+    border-color: var(--color-error);
+}
+
+.input-error .input-field:focus {
+    box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.15);
+}
+
+.input-helper {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+.input-helper-error {
+    color: var(--color-error);
+}
+
+/* Disabled state */
+.input-disabled .input-field {
+    background: var(--bg-secondary);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Password toggle */
+.input-toggle-password {
+    position: absolute;
+    right: var(--spacing-md);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: var(--font-size-lg);
+    padding: var(--spacing-xs);
+    opacity: 0.6;
+    transition: opacity var(--transition-fast);
+}
+
+.input-toggle-password:hover {
+    opacity: 1;
+}
+
+/* Select styling */
+.input-field[type="time"],
+.input-field[type="date"],
+.input-field[type="number"] {
+    appearance: none;
+}
+
+select.input-field {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%232E4A62' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--spacing-md) center;
+    padding-right: calc(var(--spacing-md) + 20px);
+}

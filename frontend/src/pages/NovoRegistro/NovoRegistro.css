@@ -1,0 +1,199 @@
+.novo-registro-page {
+    min-height: 100vh;
+    padding-bottom: calc(100px + env(safe-area-inset-bottom, 0));
+    background: var(--bg-primary);
+}
+
+/* Header */
+.page-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    padding-top: calc(var(--spacing-md) + env(safe-area-inset-top, 0));
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--bg-secondary);
+    position: sticky;
+    top: 0;
+    z-index: var(--z-navbar);
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    color: var(--color-coral);
+    font-size: var(--font-size-md);
+    font-weight: 500;
+    cursor: pointer;
+    padding: var(--spacing-sm);
+    margin-left: calc(-1 * var(--spacing-sm));
+    display: flex;
+    align-items: center;
+}
+
+.page-title {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+}
+
+/* Form */
+.registro-form {
+    padding: var(--spacing-md);
+}
+
+.form-error {
+    background: rgba(244, 67, 54, 0.1);
+    color: var(--color-error);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    animation: shake 0.5s ease;
+}
+
+/* Sections */
+.form-section {
+    margin-bottom: var(--spacing-lg);
+}
+
+.section-label {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Refeição Grid */
+.refeicao-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-sm);
+}
+
+.refeicao-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-md);
+    background: var(--bg-card);
+    border: 2px solid var(--bg-secondary);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.refeicao-btn:hover {
+    border-color: var(--btn-color);
+}
+
+.refeicao-btn.active {
+    border-color: var(--btn-color);
+    background: rgba(249, 123, 92, 0.1);
+}
+
+.refeicao-btn.active .refeicao-icon-wrapper {
+    transform: scale(1.2);
+    color: var(--btn-color);
+}
+
+.refeicao-icon-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-secondary);
+    transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+.refeicao-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.refeicao-btn.active .refeicao-label {
+    color: var(--text-primary);
+}
+
+/* Form Rows */
+.form-row {
+    margin-bottom: var(--spacing-md);
+}
+
+.form-row:last-child {
+    margin-bottom: 0;
+}
+
+.form-row.two-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+}
+
+/* Textarea */
+.textarea-field {
+    width: 100%;
+    padding: var(--spacing-md);
+    font-family: var(--font-family);
+    font-size: var(--font-size-md);
+    color: var(--text-primary);
+    background: var(--bg-input);
+    border: 2px solid transparent;
+    border-radius: var(--radius-md);
+    resize: vertical;
+    min-height: 80px;
+    transition: all var(--transition-fast);
+}
+
+.textarea-field:focus {
+    outline: none;
+    border-color: var(--color-coral);
+    background: var(--bg-card);
+}
+
+.textarea-field::placeholder {
+    color: var(--text-muted);
+}
+
+/* Actions */
+.form-actions {
+    position: fixed;
+    bottom: 70px;
+    left: 0;
+    right: 0;
+    padding: var(--spacing-md);
+    padding-bottom: calc(var(--spacing-md) + env(safe-area-inset-bottom, 0));
+    background: var(--bg-card);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+
+/* Responsivo */
+@media (min-width: 768px) {
+    .novo-registro-page {
+        max-width: 600px;
+        margin: 0 auto;
+        padding-bottom: var(--spacing-3xl);
+    }
+
+    .refeicao-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .form-actions {
+        position: static;
+        background: transparent;
+        box-shadow: none;
+        padding: var(--spacing-xl) 0;
+    }
+}
+
+@media (min-width: 1024px) {
+    .refeicao-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}

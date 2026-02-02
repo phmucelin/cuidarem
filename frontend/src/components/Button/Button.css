@@ -1,0 +1,133 @@
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    font-family: var(--font-family);
+    font-weight: 500;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+/* Tamanhos */
+.btn-sm {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-sm);
+    min-height: 36px;
+}
+
+.btn-md {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--font-size-md);
+    min-height: 44px;
+}
+
+.btn-lg {
+    padding: var(--spacing-md) var(--spacing-xl);
+    font-size: var(--font-size-lg);
+    min-height: 52px;
+}
+
+/* Variantes */
+.btn-primary {
+    background: var(--gradient-heart);
+    color: var(--text-light);
+    box-shadow: var(--shadow-button);
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: var(--gradient-heart-hover);
+    box-shadow: 0 6px 16px rgba(249, 123, 92, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border: 2px solid var(--color-coral);
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: var(--bg-secondary);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--color-coral);
+}
+
+.btn-ghost:hover:not(:disabled) {
+    background: rgba(249, 123, 92, 0.1);
+}
+
+.btn-danger {
+    background: var(--color-error);
+    color: var(--text-light);
+}
+
+.btn-danger:hover:not(:disabled) {
+    background: #D32F2F;
+}
+
+.btn-success {
+    background: var(--color-success);
+    color: var(--text-light);
+}
+
+.btn-success:hover:not(:disabled) {
+    background: var(--color-green-light);
+}
+
+/* Full width */
+.btn-full {
+    width: 100%;
+}
+
+/* Loading */
+.btn-loading .btn-text {
+    visibility: hidden;
+}
+
+.btn-spinner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+.btn-icon {
+    display: flex;
+    align-items: center;
+    font-size: 1.2em;
+}
+
+/* Ripple effect */
+.btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, transparent 10%);
+    transform: scale(0);
+    transition: transform 0.4s ease;
+}
+
+.btn:active::after {
+    transform: scale(4);
+    transition: transform 0s;
+}

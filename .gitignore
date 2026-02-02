@@ -1,0 +1,12 @@
+.env
+.env.local
+.env.*.local
+node_modules/
+bin/
+obj/
+.vs/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store

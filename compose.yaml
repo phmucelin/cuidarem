@@ -1,0 +1,18 @@
+﻿version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: cuidabem_postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: cuidabem
+      POSTGRES_USER: pedro123
+      POSTGRES_PASSWORD: 123pedro
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
