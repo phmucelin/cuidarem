@@ -9,8 +9,6 @@ public class RelatorioDTO
 
   // Status de cada cuidador.
   public int TotalRegistros { get; set; }
-  public int RegistrosNoHorario { get; set; }
-  public int RegistrosAtrasados { get; set; }
   public double TaxaPreenchimento { get; set; }
 
   public List<RegistroResumoDTO> Registros { get; set; }

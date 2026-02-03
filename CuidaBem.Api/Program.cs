@@ -68,6 +68,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<RegistroServices>();
 builder.Services.AddScoped<CuidadorServices>();
 builder.Services.AddScoped<JwtService>();
+builder.Services.AddScoped<RelatorioServices>();
 
 var app = builder.Build();
 
