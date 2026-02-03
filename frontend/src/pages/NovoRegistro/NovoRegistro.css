@@ -161,16 +161,62 @@
 
 /* Actions */
 .form-actions {
-    position: fixed;
-    bottom: 70px;
-    left: 0;
-    right: 0;
     padding: var(--spacing-md);
-    padding-bottom: calc(var(--spacing-md) + env(safe-area-inset-bottom, 0));
-    background: var(--bg-card);
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
-    z-index: 100;
+    margin-top: var(--spacing-lg);
 }
+
+/* Mobile specific */
+@media (max-width: 767px) {
+    .novo-registro-page {
+        padding-bottom: calc(80px + env(safe-area-inset-bottom, 0));
+    }
+
+    .form-actions {
+        position: sticky;
+        bottom: 70px;
+        background: var(--bg-card);
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        margin: 0;
+        padding: var(--spacing-md);
+        padding-bottom: calc(var(--spacing-md) + env(safe-area-inset-bottom, 0));
+    }
+
+    /* Larger touch targets for mobile */
+    .refeicao-btn {
+        min-height: 88px;
+        padding: var(--spacing-md);
+    }
+}
+
+/* Mobile specific input sizes */
+@media (max-width: 767px) {
+
+    /* Larger inputs on mobile */
+    .form-row .input-field {
+        font-size: 18px !important;
+        min-height: 58px;
+        padding: 18px;
+    }
+
+    .form-row .input-container:has(.input-icon) .input-field {
+        padding-left: 54px;
+    }
+
+    /* Date inputs */
+    input[type="date"] {
+        font-size: 16px;
+        min-height: 58px;
+    }
+
+    /* Textarea larger on mobile */
+    .textarea-field {
+        font-size: 16px;
+        min-height: 100px;
+        padding: 16px;
+    }
+}
+
 
 /* Responsivo */
 @media (min-width: 768px) {

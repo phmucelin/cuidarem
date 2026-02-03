@@ -10,6 +10,7 @@ import Dashboard from './pages/Dashboard';
 import Registros from './pages/Registros';
 import NovoRegistro from './pages/NovoRegistro';
 import EditarRegistro from './pages/EditarRegistro/EditarRegistro';
+import Relatorio from './pages/Relatorio';
 import Perfil from './pages/Perfil';
 
 // Layout para rotas protegidas com navegação
@@ -62,6 +63,7 @@ function App() {
           <Route element={<ProtectedLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/registros" element={<Registros />} />
+            <Route path="/relatorio" element={<Relatorio />} />
             <Route path="/novo-registro" element={<NovoRegistro />} />
             <Route path="/editar-registro/:id" element={<EditarRegistro />} />
             <Route path="/perfil" element={<Perfil />} />

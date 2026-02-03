@@ -13,6 +13,10 @@ public class RegistroResumoDTO
     public int HgtDepois { get; set; }
     public int DoseLentaAnte { get; set; }
     public int DoseRapida { get; set; }
+    public decimal Temperatura { get; set; }
+    public int Saturacao { get; set; }
+    public int PressaoSistolica { get; set; }
+    public int PressaoDiastolica { get; set; }
     public List<string> MedicamentosTomados { get; set; }
     public string Observacao { get; set; }
 }

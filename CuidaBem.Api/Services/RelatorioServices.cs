@@ -38,6 +38,10 @@ public class RelatorioServices
             HgtDepois = r.HgtDepois,
             DoseLentaAnte = r.DoseLentaAnte,
             DoseRapida = r.DoseRapida,
+            Temperatura = r.Temperatura,
+            Saturacao = r.Saturacao,
+            PressaoSistolica = r.PressaoSistolica,
+            PressaoDiastolica = r.PressaoDiastolica,
             MedicamentosTomados = r.MedicamentosTomados ?? new List<string>(),
             Observacao = r.Observacao
         }).ToList();

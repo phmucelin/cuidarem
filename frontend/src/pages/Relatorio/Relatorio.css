@@ -1,0 +1,327 @@
+.relatorio-container {
+    padding: 16px;
+    padding-bottom: 96px;
+    min-height: 100vh;
+}
+
+@media (min-width: 768px) {
+    .relatorio-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 24px;
+    }
+}
+
+.relatorio-header {
+    margin-bottom: 24px;
+    padding: 0 4px;
+}
+
+.relatorio-header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.relatorio-subtitle {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Filter Section */
+.filter-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.date-inputs {
+    display: flex;
+    gap: 12px;
+}
+
+@media (max-width: 767px) {
+    .date-inputs {
+        flex-direction: column;
+    }
+}
+
+.date-field {
+    flex: 1;
+    position: relative;
+    min-width: 0;
+    /* Importante para flexbox não transbordar */
+    width: 100%;
+}
+
+.date-field label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.input-icon {
+    position: absolute;
+    left: 14px;
+    color: var(--color-coral);
+    pointer-events: none;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.date-field input {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    /* Garante que padding não aumente a largura */
+    padding: 14px 14px 14px 44px;
+    border: 1px solid var(--bg-secondary);
+    background: var(--bg-input);
+    border-radius: 12px;
+    font-size: 16px;
+    /* Prevent iOS zoom */
+    color: var(--text-primary);
+    font-weight: 500;
+    transition: all 0.2s ease;
+    outline: none;
+    font-family: var(--font-family);
+    min-height: 52px;
+    -webkit-appearance: none;
+    /* Remove estilos padrão do iOS */
+}
+
+.date-field input:focus {
+    border-color: var(--color-coral);
+    box-shadow: 0 0 0 3px rgba(249, 123, 92, 0.1);
+    background: white;
+}
+
+.generate-btn {
+    background: var(--gradient-heart);
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: var(--shadow-button);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    min-height: 52px;
+}
+
+.generate-btn:hover {
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+}
+
+.generate-btn:active {
+    transform: translateY(0);
+}
+
+.generate-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Stats Section */
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 24px 0;
+}
+
+.stat-card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+}
+
+.stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(249, 123, 92, 0.1);
+    color: var(--color-coral);
+    margin-bottom: 4px;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Records List */
+.records-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    padding: 0 4px;
+}
+
+.record-item {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.record-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.record-time {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.record-date {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.meal-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: white;
+}
+
+.record-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    background: var(--bg-primary);
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.metric-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.metric-icon {
+    color: var(--text-secondary);
+}
+
+.metric-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.metric-label {
+    font-size: 10px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.metric-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.metric-extra {
+    grid-column: span 2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-top: 4px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.meds-list {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 64px 24px;
+    color: var(--text-secondary);
+    background: white;
+    border-radius: 24px;
+    border: 1px dashed var(--bg-secondary);
+}
+
+.empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    color: var(--color-coral-light);
+}
+
+@media (min-width: 768px) {
+    .relatorio-container {
+        padding: 40px;
+    }
+
+    .summary-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .record-metrics {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .metric-extra {
+        grid-column: span 4;
+    }
+}

@@ -11,19 +11,22 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         // Verificar se há usuário logado ao carregar
         const storedUser = authApi.getUser();
+
         if (storedUser && authApi.isAuthenticated()) {
             setUser(storedUser);
-            // Validar token com o servidor
-            authApi.getMe()
-                .then(userData => {
-                    setUser(userData);
-                    localStorage.setItem('user', JSON.stringify(userData));
-                })
-                .catch(() => {
-                    // Token inválido
-                    logout();
-                })
-                .finally(() => setLoading(false));
+            setLoading(false);
+
+            // DESABILITADO: validação automática causando loop de logout
+            // authApi.getMe()
+            //     .then(userData => {
+            //         setUser(userData);
+            //         localStorage.setItem('user', JSON.stringify(userData));
+            //     })
+            //     .catch((err) => {
+            //         console.error('Erro ao validar token:', err);
+            //         logout();
+            //     })
+            //     .finally(() => setLoading(false));
         } else {
             setLoading(false);
         }
@@ -31,11 +34,14 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (email, password) => {
         setError(null);
+        console.log('[AuthContext] Tentando login...');
         try {
             const data = await authApi.login(email, password);
+            console.log('[AuthContext] Login concluído, setando user:', data.user);
             setUser(data.user);
             return data;
         } catch (err) {
+            console.error('[AuthContext] Erro no login:', err);
             setError(err.message);
             throw err;
         }

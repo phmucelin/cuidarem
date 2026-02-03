@@ -13,19 +13,30 @@ const request = async (endpoint, options = {}) => {
         },
     };
 
+    console.log(`[request] ${options.method || 'GET'} ${endpoint}`);
+
     const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
 
     // Se token expirou ou inválido
     if (response.status === 401) {
+        console.error('[request] 401 Unauthorized - Fazendo logout');
+        console.error('[request] Endpoint:', endpoint);
+        console.error('[request] Token presente?', !!token);
+        console.error('[request] Response status:', response.status);
+
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        window.location.href = '/login';
+
+        // TEMPORARIAMENTE DESABILITADO - impede de ver logs
+        // window.location.href = '/login';
+
         throw new Error('Sessão expirada. Faça login novamente.');
     }
 
     const data = await response.json().catch(() => null);
 
     if (!response.ok) {
+        console.error('[request] Erro na resposta:', response.status, data);
         throw new Error(data?.message || 'Erro na requisição');
     }
 
@@ -36,14 +47,21 @@ const request = async (endpoint, options = {}) => {
 
 export const authApi = {
     login: async (email, password) => {
+        console.log('[authApi] Iniciando login...');
         const data = await request('/api/cuidadores/login', {
             method: 'POST',
             body: JSON.stringify({ email, password }),
         });
 
+        console.log('[authApi] Login bem-sucedido, dados recebidos:', data);
+
         // Salvar token e dados do usuário
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
+
+        console.log('[authApi] Token e user salvos no localStorage');
+        console.log('[authApi] Token:', data.token.substring(0, 20) + '...');
+        console.log('[authApi] User:', data.user);
 
         return data;
     },
@@ -70,6 +88,7 @@ export const authApi = {
     },
 
     logout: () => {
+        console.log('[authApi] Fazendo logout...');
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         window.location.href = '/login';
@@ -115,6 +134,32 @@ export const registrosApi = {
             method: 'DELETE',
         });
     },
+
+    obterMedicamentos: async (refeicao) => {
+        return request(`/api/registros/medicamentos/${refeicao}`);
+    },
+};
+
+// ============ RELATÓRIOS ============
+
+export const relatorioApi = {
+    getIndividual: async (cuidadorId, inicio, fim) => {
+        const query = new URLSearchParams({
+            inicio: inicio.toISOString(),
+            fim: fim.toISOString(),
+        }).toString();
+
+        return request(`/api/Relatorio/individual/${cuidadorId}?${query}`);
+    },
+
+    getGeral: async (inicio, fim) => {
+        const query = new URLSearchParams({
+            inicio: inicio.toISOString(),
+            fim: fim.toISOString(),
+        }).toString();
+
+        return request(`/api/Relatorio/geral?${query}`);
+    }
 };
 
 // Tipos de refeição
@@ -126,4 +171,4 @@ export const TIPOS_REFEICAO = {
     5: { label: 'Madrugada', color: 'var(--color-navy)' },
 };
 
-export default { authApi, registrosApi, TIPOS_REFEICAO };
+export default { authApi, registrosApi, relatorioApi, TIPOS_REFEICAO };

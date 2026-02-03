@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     ArrowLeft,
@@ -7,7 +7,8 @@ import {
     Apple,
     UtensilsCrossed,
     Soup,
-    Moon
+    Moon,
+    Clock
 } from 'lucide-react';
 import { registrosApi, TIPOS_REFEICAO } from '../../services/api';
 import Button from '../../components/Button';
@@ -28,8 +29,29 @@ const NovoRegistro = () => {
         hgtDepois: '',
         doseLentaAnte: '0',
         doseRapida: '0',
+        temperatura: '',
+        saturacao: '',
+        pressaoSistolica: '',
+        pressaoDiastolica: '',
         observacao: '',
     });
+    const [medicamentos, setMedicamentos] = useState([]);
+    const [medicamentosSelecionados, setMedicamentosSelecionados] = useState([]);
+
+    // Carregar medicamentos quando a refeição mudar
+    useEffect(() => {
+        const carregarMedicamentos = async () => {
+            try {
+                const meds = await registrosApi.obterMedicamentos(formData.refeicao);
+                setMedicamentos(meds);
+                setMedicamentosSelecionados([]); // Resetar seleção ao mudar refeição
+            } catch (err) {
+                console.error('Erro ao carregar medicamentos:', err);
+            }
+        };
+
+        carregarMedicamentos();
+    }, [formData.refeicao]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -38,6 +60,24 @@ const NovoRegistro = () => {
             [name]: value,
         }));
         setError('');
+    };
+
+    const toggleMedicamento = (medicamento) => {
+        setMedicamentosSelecionados(prev => {
+            if (prev.includes(medicamento)) {
+                return prev.filter(m => m !== medicamento);
+            } else {
+                return [...prev, medicamento];
+            }
+        });
+    };
+
+    const toggleTodosMedicamentos = () => {
+        if (medicamentosSelecionados.length === medicamentos.length) {
+            setMedicamentosSelecionados([]);
+        } else {
+            setMedicamentosSelecionados([...medicamentos]);
+        }
     };
 
     const handleRefeicaoSelect = (tipo) => {
@@ -84,7 +124,12 @@ const NovoRegistro = () => {
                 hgtDepois: parseInt(formData.hgtDepois),
                 doseLentaAnte: parseInt(formData.doseLentaAnte) || 0,
                 doseRapida: parseInt(formData.doseRapida) || 0,
+                temperatura: parseFloat(formData.temperatura) || 0,
+                saturacao: parseInt(formData.saturacao) || 0,
+                pressaoSistolica: parseInt(formData.pressaoSistolica) || 0,
+                pressaoDiastolica: parseInt(formData.pressaoDiastolica) || 0,
                 observacao: formData.observacao || null,
+                medicamentosTomados: medicamentosSelecionados,
                 cuidadorId: 0, // Será sobrescrito pelo backend
             };
 
@@ -153,6 +198,7 @@ const NovoRegistro = () => {
                                 label="Hora Antes"
                                 type="time"
                                 name="horaAntes"
+                                icon={Clock}
                                 value={formData.horaAntes}
                                 onChange={handleChange}
                                 required
@@ -161,6 +207,7 @@ const NovoRegistro = () => {
                                 label="Hora Depois"
                                 type="time"
                                 name="horaDepois"
+                                icon={Clock}
                                 value={formData.horaDepois}
                                 onChange={handleChange}
                                 required
@@ -226,6 +273,121 @@ const NovoRegistro = () => {
                                 max="100"
                             />
                         </div>
+                    </Card>
+                </section>
+
+                {/* Sinais Vitais */}
+                <section className="form-section">
+                    <h3 className="section-label">Sinais Vitais</h3>
+                    <Card padding="md">
+                        <div className="form-row two-cols">
+                            <Input
+                                label="Pressão Sistólica (mmHg)"
+                                type="number"
+                                name="pressaoSistolica"
+                                value={formData.pressaoSistolica}
+                                onChange={handleChange}
+                                placeholder="Ex: 120"
+                                min="0"
+                                max="300"
+                            />
+                            <Input
+                                label="Pressão Diastólica (mmHg)"
+                                type="number"
+                                name="pressaoDiastolica"
+                                value={formData.pressaoDiastolica}
+                                onChange={handleChange}
+                                placeholder="Ex: 80"
+                                min="0"
+                                max="200"
+                            />
+                        </div>
+                        <div className="form-row two-cols">
+                            <Input
+                                label="Saturação (%)"
+                                type="number"
+                                name="saturacao"
+                                value={formData.saturacao}
+                                onChange={handleChange}
+                                placeholder="Ex: 98"
+                                min="0"
+                                max="100"
+                            />
+                            <Input
+                                label="Temperatura (°C)"
+                                type="number"
+                                name="temperatura"
+                                value={formData.temperatura}
+                                onChange={handleChange}
+                                placeholder="Ex: 36.5"
+                                step="0.1"
+                                min="0"
+                                max="45"
+                            />
+                        </div>
+                    </Card>
+                </section>
+
+                {/* Medicamentos */}
+                <section className="form-section">
+                    <h3 className="section-label">Medicamentos</h3>
+                    <Card padding="md">
+                        {medicamentos.length > 0 ? (
+                            <>
+                                <div style={{ marginBottom: '16px' }}>
+                                    <button
+                                        type="button"
+                                        onClick={toggleTodosMedicamentos}
+                                        className="btn-secondary"
+                                        style={{
+                                            padding: '8px 16px',
+                                            backgroundColor: medicamentosSelecionados.length === medicamentos.length ? '#10b981' : '#6366f1',
+                                            color: 'white',
+                                            border: 'none',
+                                            borderRadius: '8px',
+                                            cursor: 'pointer',
+                                            fontSize: '14px',
+                                            fontWeight: '500'
+                                        }}
+                                    >
+                                        {medicamentosSelecionados.length === medicamentos.length ? '✓ Todos Selecionados' : 'Selecionar Todos'}
+                                    </button>
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                    {medicamentos.map((med, index) => (
+                                        <label
+                                            key={index}
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                padding: '12px',
+                                                backgroundColor: medicamentosSelecionados.includes(med) ? 'rgba(99, 102, 241, 0.1)' : 'transparent',
+                                                borderRadius: '8px',
+                                                cursor: 'pointer',
+                                                transition: 'all 0.2s',
+                                                border: '1px solid',
+                                                borderColor: medicamentosSelecionados.includes(med) ? '#6366f1' : '#e5e7eb'
+                                            }}
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                checked={medicamentosSelecionados.includes(med)}
+                                                onChange={() => toggleMedicamento(med)}
+                                                style={{
+                                                    width: '20px',
+                                                    height: '20px',
+                                                    marginRight: '12px',
+                                                    cursor: 'pointer'
+                                                }}
+                                            />
+                                            <span style={{ fontSize: '15px', fontWeight: '500' }}>{med}</span>
+                                        </label>
+                                    ))}
+                                </div>
+                            </>
+                        ) : (
+                            <p style={{ color: '#6b7280', textAlign: 'center' }}>Nenhum medicamento cadastrado para esta refeição</p>
+                        )}
                     </Card>
                 </section>
 

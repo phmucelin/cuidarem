@@ -37,8 +37,10 @@
 
 .btn-lg {
     padding: var(--spacing-md) var(--spacing-xl);
-    font-size: var(--font-size-lg);
-    min-height: 52px;
+    font-size: 16px;
+    /* Prevent iOS zoom */
+    min-height: 56px;
+    font-weight: 600;
 }
 
 /* Variantes */

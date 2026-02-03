@@ -1,11 +1,12 @@
 import { NavLink } from 'react-router-dom';
-import { Home, ClipboardList, User } from 'lucide-react';
+import { Home, ClipboardList, User, FileText } from 'lucide-react';
 import './BottomNav.css';
 
 const BottomNav = () => {
     const navItems = [
         { path: '/dashboard', icon: Home, label: 'Início' },
         { path: '/registros', icon: ClipboardList, label: 'Registros' },
+        { path: '/relatorio', icon: FileText, label: 'Relatório' },
         { path: '/perfil', icon: User, label: 'Perfil' },
     ];
 
