@@ -17,7 +17,7 @@ public class RegistroServices
 
     public async Task<Registro> CriarRegistro(CreateRegistroDTO registroRequest)
     {
-        // var verified = await _db.Registros.Where(x => 
+        // var verified = await _db.Registros.Where(x =>
         //     x.Refeicao == registroRequest.Refeicao &&
         //     x.Data == registroRequest.Data &&
         //     x.HoraAntes == registroRequest.HoraAntes).AnyAsync();
@@ -26,12 +26,12 @@ public class RegistroServices
         {
             throw new BusinessException("HoraDepois deve ser maior que HoraAntes.");
         }
-        
+
         // Converter data para UTC se necessário (PostgreSQL requer timestamp with time zone)
-        var dataUtc = registroRequest.Data.Kind == DateTimeKind.Unspecified 
-            ? DateTime.SpecifyKind(registroRequest.Data, DateTimeKind.Utc) 
+        var dataUtc = registroRequest.Data.Kind == DateTimeKind.Unspecified
+            ? DateTime.SpecifyKind(registroRequest.Data, DateTimeKind.Utc)
             : registroRequest.Data.ToUniversalTime();
-        
+
         var novoRegistro = new Registro(registroRequest.Refeicao,
             dataUtc,
             registroRequest.HoraAntes,
@@ -40,8 +40,13 @@ public class RegistroServices
             registroRequest.HgtDepois,
             registroRequest.DoseLentaAnte,
             registroRequest.DoseRapida,
+            registroRequest.Temperatura,
+            registroRequest.Saturacao,
+            registroRequest.PressaoSistolica,
+            registroRequest.PressaoDiastolica,
             registroRequest.Observacao,
-            registroRequest.CuidadorId);
+            registroRequest.CuidadorId,
+            registroRequest.MedicamentosTomados);
         _db.Add(novoRegistro);
         await _db.SaveChangesAsync();
         return novoRegistro;
@@ -56,17 +61,17 @@ public class RegistroServices
         }
         editado.Refeicao = dto.Refeicao;
         // Converter data para UTC se necessário
-        editado.Data = dto.Data.Kind == DateTimeKind.Unspecified 
-            ? DateTime.SpecifyKind(dto.Data, DateTimeKind.Utc) 
+        editado.Data = dto.Data.Kind == DateTimeKind.Unspecified
+            ? DateTime.SpecifyKind(dto.Data, DateTimeKind.Utc)
             : dto.Data.ToUniversalTime();
         editado.HoraAntes = dto.HoraAntes;
         editado.HoraDepois = dto.HoraDepois;
         editado.HgtAntes = dto.HgtAntes;
         editado.HgtDepois = dto.HgtDepois;
         editado.Observacao = dto.Observacao;
-        
+
         await _db.SaveChangesAsync();
-        
+
         return editado;
     }
     public async Task<bool> RemoverRegistro(int id)

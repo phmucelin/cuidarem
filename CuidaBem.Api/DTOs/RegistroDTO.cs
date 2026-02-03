@@ -11,6 +11,10 @@ public record EditaDTO(
     int HgtDepois,
     int DoseLenta,
     int DoseRapida,
+    decimal Temperatura,
+    int Saturacao,
+    int PressaoSistolica,
+    int PressaoDiastolica,
     string? Observacao);
 public class CreateRegistroDTO
 {
@@ -37,8 +41,18 @@ public class CreateRegistroDTO
 
     [Range(0, 100)]
     public int DoseRapida { get; set; }
+    [Range(0,46)]
+    public decimal Temperatura { get; set; }
+    [Required]
+    public int Saturacao { get; set; }
+    [Required]
+    public int PressaoSistolica { get; set; }
+    [Required]
+    public int PressaoDiastolica { get; set; }
+
     public string? Observacao { get; set; }
     [Required]
     public int CuidadorId { get; set; }
-
+    [Required]
+    public List<string> MedicamentosTomados { get; set; }
 }

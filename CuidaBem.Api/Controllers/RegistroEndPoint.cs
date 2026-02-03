@@ -90,5 +90,11 @@ namespace CuidaBem.Controllers
             var reg = await _registroServices.EditaRegistro(id, registro);
             return Ok(reg);
         }
+        [HttpGet("medicamentos/{refeicao}")]
+        public IActionResult ObterMedicamentos(Registro.TipoRef refeicao)
+        {
+            var medicamentos = RemedioModels.MedicamentosPadrao.ObterPorRefeicao(refeicao);
+            return Ok(medicamentos);
+        }
     }
 }
