@@ -11,11 +11,15 @@ import {
     Moon,
     ClipboardList,
     User,
-    Plus
+    Plus,
+    CheckCircle,
+    TrendingUp,
+    FileText
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { registrosApi, TIPOS_REFEICAO } from '../../services/api';
 import { parseLocalDate } from '../../utils/date';
+import { calcularEstatisticas } from '../../utils/statistics';
 import Card from '../../components/Card';
 import Loading from '../../components/Loading';
 import './Dashboard.css';
@@ -45,10 +49,21 @@ const Dashboard = () => {
                 parseLocalDate(r.data).toDateString() === hoje
             );
 
+            // Calcular estatísticas gerais (últimos 30 dias)
+            const hojeLimite = new Date();
+            hojeLimite.setDate(hojeLimite.getDate() - 30);
+            const registrosRecentes = data.filter(r => {
+                const dataRegistro = parseLocalDate(r.data);
+                return dataRegistro >= hojeLimite;
+            });
+            const statsGerais = calcularEstatisticas(registrosRecentes);
+
             setStats({
                 total: data.length,
                 hoje: registrosHoje.length,
                 ultimaGlicemia: data[0]?.hgtDepois || null,
+                taxaControle: statsGerais.taxaControle,
+                mediaHgtDepois: statsGerais.mediaHgtDepois,
             });
         } catch (error) {
             console.error('Erro ao carregar dados:', error);
@@ -138,15 +153,50 @@ const Dashboard = () => {
                         </div>
                     </Card>
                 </div>
+
+                {stats.taxaControle !== undefined && (
+                    <div className="stats-row" style={{ marginTop: '12px' }}>
+                        <Card className="stat-card">
+                            <div className="stat-icon" style={{ color: 'var(--color-green)' }}>
+                                <CheckCircle size={28} />
+                            </div>
+                            <div className="stat-info">
+                                <span className="stat-value">{stats.taxaControle}%</span>
+                                <span className="stat-label">Taxa Controle</span>
+                            </div>
+                        </Card>
+
+                        <Card className="stat-card">
+                            <div className="stat-icon" style={{ color: 'var(--color-coral)' }}>
+                                <TrendingUp size={28} />
+                            </div>
+                            <div className="stat-info">
+                                <span className="stat-value">
+                                    {stats.mediaHgtDepois || '--'}
+                                </span>
+                                <span className="stat-label">Média HGT (30d)</span>
+                            </div>
+                        </Card>
+                    </div>
+                )}
             </section>
 
-            {/* Quick Action */}
+            {/* Quick Actions */}
             <section className="quick-action">
                 <Link to="/novo-registro" className="quick-action-btn">
                     <span className="action-plus">
                         <Plus size={24} />
                     </span>
                     <span>Novo Registro</span>
+                </Link>
+                <Link to="/relatorio" className="quick-action-btn" style={{
+                    marginTop: '12px',
+                    background: 'var(--bg-input)',
+                    color: 'var(--text-primary)',
+                    border: '1px solid var(--bg-secondary)',
+                }}>
+                    <FileText size={20} style={{ marginRight: '8px' }} />
+                    <span>Ver Relatório Completo</span>
                 </Link>
             </section>
 

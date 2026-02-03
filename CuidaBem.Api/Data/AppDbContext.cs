@@ -17,6 +17,9 @@ public class AppDbContext : DbContext
             builder.Property(x => x.Refeicao)
                 .HasConversion<string>()
                 .IsRequired();
+
+            builder.Property(x => x.MedicamentosTomados)
+                .HasColumnType("text[]");
         });
     }
 }

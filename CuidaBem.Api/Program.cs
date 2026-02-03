@@ -1,6 +1,7 @@
 using System.Text;
 using CuidaBem.Services;
 using CuidaBem.Data;
+using CuidaBem.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -50,7 +51,8 @@ builder.Services.AddCors(options =>
                 "http://localhost:5173",
                 "http://localhost:5174",
                 "http://localhost:3000",
-                "http://192.168.0.5:5173"
+                "http://192.168.0.5:5173",
+                "http://192.168.0.25:5173"
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
@@ -97,5 +99,31 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Seed do usuário família: só roda se SeedFamilia:Email e SeedFamilia:Password estiverem configurados
+// (appsettings.json local, variáveis de ambiente SeedFamilia__Email / SeedFamilia__Password, ou User Secrets)
+var seedEmail = builder.Configuration["SeedFamilia:Email"];
+var seedPassword = builder.Configuration["SeedFamilia:Password"];
+if (!string.IsNullOrWhiteSpace(seedEmail) && !string.IsNullOrWhiteSpace(seedPassword))
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        var familia = db.Cuidadores.FirstOrDefault(c => c.Email == seedEmail.Trim());
+        var hashedPassword = BCrypt.Net.BCrypt.HashPassword(seedPassword);
+        if (familia != null)
+        {
+            familia.Tipo = TipoUsuario.Familia;
+            familia.HashPassword = hashedPassword;
+            familia.Nome ??= "Família";
+            db.SaveChanges();
+        }
+        else
+        {
+            db.Cuidadores.Add(new Cuidador("Família", seedEmail.Trim(), hashedPassword, TipoUsuario.Familia));
+            db.SaveChanges();
+        }
+    }
+}
 
 app.Run();

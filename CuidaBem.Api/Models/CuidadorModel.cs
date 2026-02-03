@@ -9,12 +9,21 @@ public class Cuidador
     public DateTime CriadoEm { get; set; } = DateTime.UtcNow;
     public List<Registro> Registros { get; set; }
     
+    public TipoUsuario Tipo { get; set; } = TipoUsuario.Cuidador;
+
     protected Cuidador() {}
 
-    public Cuidador(string nome, string email, string hashPassword)
+    public Cuidador(string nome, string email, string hashPassword, TipoUsuario tipo = TipoUsuario.Cuidador)
     {
         Nome = nome;
         Email = email;
         HashPassword = hashPassword;
+        Tipo = tipo;
     }
+}
+
+public enum TipoUsuario
+{
+    Cuidador = 0,
+    Familia = 1
 }

@@ -60,4 +60,12 @@ public class CuidadorServices
     
         return true;
     }
+
+    public async Task<List<Cuidador>> ListarTodosCuidadores()
+    {
+        return await _db.Cuidadores
+            .Where(c => c.Tipo == TipoUsuario.Cuidador)
+            .OrderBy(c => c.Nome)
+            .ToListAsync();
+    }
 }

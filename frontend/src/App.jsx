@@ -12,10 +12,11 @@ import NovoRegistro from './pages/NovoRegistro';
 import EditarRegistro from './pages/EditarRegistro/EditarRegistro';
 import Relatorio from './pages/Relatorio';
 import Perfil from './pages/Perfil';
+import AdminDashboard from './pages/AdminDashboard';
 
 // Layout para rotas protegidas com navegação
 const ProtectedLayout = () => {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading, isAdmin } = useAuth();
 
   if (loading) {
     return <Loading fullScreen text="Carregando..." />;
@@ -23,6 +24,11 @@ const ProtectedLayout = () => {
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
+  }
+
+  // Se for admin, não deve acessar rotas de cuidador (opcional, mas recomendado)
+  if (isAdmin) {
+    return <Navigate to="/admin/dashboard" replace />;
   }
 
   return (
@@ -33,16 +39,34 @@ const ProtectedLayout = () => {
   );
 };
 
+const AdminLayout = () => {
+  const { isAuthenticated, loading, isAdmin } = useAuth();
+
+  if (loading) {
+    return <Loading fullScreen text="Carregando..." />;
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (!isAdmin) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return <Outlet />;
+};
+
 // Layout para rotas públicas (login/register)
 const PublicLayout = () => {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading, isAdmin } = useAuth();
 
   if (loading) {
     return <Loading fullScreen text="Carregando..." />;
   }
 
   if (isAuthenticated) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to={isAdmin ? "/admin/dashboard" : "/dashboard"} replace />;
   }
 
   return <Outlet />;
@@ -59,7 +83,14 @@ function App() {
             <Route path="/register" element={<Register />} />
           </Route>
 
-          {/* Rotas Protegidas */}
+          {/* Rotas de Admin (Família) */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route path="dashboard" element={<AdminDashboard />} />
+            {/* Redirecionar /admin para /admin/dashboard */}
+            <Route index element={<Navigate to="dashboard" replace />} />
+          </Route>
+
+          {/* Rotas Protegidas (Cuidadores) */}
           <Route element={<ProtectedLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/registros" element={<Registros />} />
@@ -70,8 +101,8 @@ function App() {
           </Route>
 
           {/* Redirect padrão */}
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/" element={<PublicLayout />} /> {/* Deixe o PublicLayout decidir */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

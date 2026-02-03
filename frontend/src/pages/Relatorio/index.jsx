@@ -12,7 +12,8 @@ import {
     Thermometer,
     Droplets,
     Heart,
-    Pill
+    Pill,
+    TrendingUp
 } from 'lucide-react';
 import './Relatorio.css';
 
@@ -115,6 +116,37 @@ const Relatorio = () => {
                                 </div>
                                 <span className="stat-value">{relatorio.taxaPreenchimento}%</span>
                                 <span className="stat-label">Preenchimento</span>
+                            </div>
+                        </Card>
+                        <Card padding="md">
+                            <div className="stat-card-content">
+                                <div className="stat-icon" style={{ backgroundColor: '#e0f2fe', color: '#0ea5e9' }}>
+                                    <TrendingUp size={24} />
+                                </div>
+                                <span className="stat-value">{relatorio.tendenciaGlicemia || '-'}</span>
+                                <span className="stat-label">Tendência Glicêmica</span>
+                            </div>
+                        </Card>
+                        <Card padding="md">
+                            <div className="stat-card-content">
+                                <div className="stat-icon" style={{ backgroundColor: '#fce7f3', color: '#be185d' }}>
+                                    <Pill size={24} />
+                                </div>
+                                <span className="stat-value">{relatorio.totalMedicamentosTomados}</span>
+                                <span className="stat-label">Remédios Tomados</span>
+                            </div>
+                        </Card>
+                        <Card padding="md">
+                            <div className="stat-card-content">
+                                <div className="stat-icon" style={{ backgroundColor: '#ccfbf1', color: '#0f766e' }}>
+                                    <Droplets size={24} />
+                                </div>
+                                <div className="stat-dual-value">
+                                    <span>{relatorio.mediaHgtAntes || '-'}</span>
+                                    <span className="separator">/</span>
+                                    <span>{relatorio.mediaHgtDepois || '-'}</span>
+                                </div>
+                                <span className="stat-label">Média HGT (Antes/Depois)</span>
                             </div>
                         </Card>
                     </div>

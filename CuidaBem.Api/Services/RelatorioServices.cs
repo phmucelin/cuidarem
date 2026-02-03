@@ -27,6 +27,11 @@ public class RelatorioServices
         var taxaPreenchimento = registros.Any()
             ? registros.Average(r => CalcularTaxaPreenchimento(r))
             : 0;
+        var mediaHgtAntes = registros.Any(r => r.HgtAntes > 0) ? registros.Where(r => r.HgtAntes > 0).Average(r => r.HgtAntes) : 0;
+        var mediaHgtDepois = registros.Any(r => r.HgtDepois > 0) ? registros.Where(r => r.HgtDepois > 0).Average(r => r.HgtDepois) : 0;
+        var tendencia = CalcularTendencia(registros);
+        var totalMedicamentosTomados = registros.Sum(r => r.MedicamentosTomados?.Count ?? 0);
+
         var registrosResumo = registros.Select(r => new RegistroResumoDTO
         {
             Id = r.Id,
@@ -53,6 +58,10 @@ public class RelatorioServices
             DataFim = fim,
             TotalRegistros = totalRegistros,
             TaxaPreenchimento = Math.Round(taxaPreenchimento, 2),
+            MediaHgtAntes = Math.Round(mediaHgtAntes, 1),
+            MediaHgtDepois = Math.Round(mediaHgtDepois, 1),
+            TendenciaGlicemia = tendencia,
+            TotalMedicamentosTomados = totalMedicamentosTomados,
             Registros = registrosResumo
         };
     }
@@ -116,7 +125,8 @@ public class RelatorioServices
     }
     private string CalcularTendencia(List<Registro> registros)
     {
-        if (!registros.Any()) return "Sem dados";
+        // Precisa de pelo menos 2 registros para calcular tendência
+        if (registros.Count < 2) return "Sem dados";
 
         var metade = registros.Count / 2;
         var primeiraParte = registros.Take(metade).Average(r => r.HgtDepois);

@@ -34,14 +34,11 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (email, password) => {
         setError(null);
-        console.log('[AuthContext] Tentando login...');
         try {
             const data = await authApi.login(email, password);
-            console.log('[AuthContext] Login concluído, setando user:', data.user);
             setUser(data.user);
             return data;
         } catch (err) {
-            console.error('[AuthContext] Erro no login:', err);
             setError(err.message);
             throw err;
         }
@@ -72,6 +69,7 @@ export const AuthProvider = ({ children }) => {
         register,
         logout,
         isAuthenticated: !!user && authApi.isAuthenticated(),
+        isAdmin: user?.tipo === 1 // 1 = Familia
     };
 
     return (

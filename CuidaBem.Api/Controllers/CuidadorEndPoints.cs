@@ -35,7 +35,8 @@ namespace CuidaBem.Controllers
                     {
                         id = cuidador.Id,
                         nome = cuidador.Nome,
-                        email = cuidador.Email
+                        email = cuidador.Email,
+                        tipo = (int)cuidador.Tipo
                     }
                 });
             }
@@ -61,7 +62,8 @@ namespace CuidaBem.Controllers
                 {
                     id = cuidador.Id,
                     nome = cuidador.Nome,
-                    email = cuidador.Email
+                    email = cuidador.Email,
+                    tipo = (int)cuidador.Tipo
                 }
             });
         }
@@ -83,8 +85,31 @@ namespace CuidaBem.Controllers
                 id = cuidador.Id,
                 nome = cuidador.Nome,
                 email = cuidador.Email,
-                criadoEm = cuidador.CriadoEm
+                criadoEm = cuidador.CriadoEm,
+                tipo = (int)cuidador.Tipo
             });
+        }
+
+        [Authorize]
+        [HttpGet("todos")]
+        public async Task<IActionResult> ListarTodos()
+        {
+            var userId = _jwtService.GetUserIdFromClaims(User);
+            if (userId == null)
+                return Unauthorized(new { message = "Token inválido" });
+            
+            var cuidador = await _cuidadorServices.ObterPorId(userId.Value);
+            if (cuidador == null || cuidador.Tipo != TipoUsuario.Familia)
+                return Unauthorized(new { message = "Acesso negado. Apenas membros da família podem listar cuidadores." });
+            
+            var cuidadores = await _cuidadorServices.ListarTodosCuidadores();
+            return Ok(cuidadores.Select(c => new
+            {
+                id = c.Id,
+                nome = c.Nome,
+                email = c.Email,
+                criadoEm = c.CriadoEm
+            }));
         }
     }
 }
