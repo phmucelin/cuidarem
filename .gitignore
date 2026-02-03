@@ -10,3 +10,7 @@ obj/
 *.swo
 *~
 .DS_Store
+
+# User Secrets and Settings
+**/appsettings.json
+**/launchSettings.json
