@@ -52,13 +52,14 @@ builder.Services.AddCors(options =>
                 "http://localhost:5174",
                 "http://localhost:3000",
                 "http://192.168.0.5:5173",
-                "http://192.168.0.25:5173"
+                "http://192.168.0.25:5173",
+                "http://192.168.0.40:5173"
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
     });
-    
+
     // Policy mais permissiva para desenvolvimento
     options.AddPolicy("Development", policy =>
     {
@@ -73,6 +74,8 @@ builder.Services.AddScoped<RegistroServices>();
 builder.Services.AddScoped<CuidadorServices>();
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<RelatorioServices>();
+builder.Services.AddScoped<OrientacoesService>();
+builder.Services.AddScoped<ReportAnalysisService>();
 
 var app = builder.Build();
 

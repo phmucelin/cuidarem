@@ -8,9 +8,13 @@ import {
     UtensilsCrossed,
     Soup,
     Moon,
-    Clock
+    Clock,
+    Syringe,
+    AlertTriangle,
+    Phone,
+    MessageCircle
 } from 'lucide-react';
-import { registrosApi, TIPOS_REFEICAO } from '../../services/api';
+import { registrosApi, orientacoesApi, TIPOS_REFEICAO } from '../../services/api';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import Card from '../../components/Card';
@@ -37,6 +41,7 @@ const NovoRegistro = () => {
     });
     const [medicamentos, setMedicamentos] = useState([]);
     const [medicamentosSelecionados, setMedicamentosSelecionados] = useState([]);
+    const [insulinaInfo, setInsulinaInfo] = useState(null);
 
     // Carregar medicamentos quando a refeição mudar
     useEffect(() => {
@@ -60,6 +65,39 @@ const NovoRegistro = () => {
             [name]: value,
         }));
         setError('');
+
+        // Calcular dose de insulina quando HGT for preenchido
+        if (name === 'hgtAntes' && value) {
+            calcularDoseInsulina(parseInt(value));
+        }
+    };
+
+    // Calcular dose de insulina baseada no HGT
+    const calcularDoseInsulina = async (hgt) => {
+        if (!hgt || hgt < 50 || hgt > 600) {
+            setInsulinaInfo(null);
+            return;
+        }
+
+        try {
+            const resultado = await orientacoesApi.calcularDosagemInsulina(hgt);
+            setInsulinaInfo(resultado);
+
+            // Atualizar automaticamente o campo de dose rápida
+            if (resultado.aplicar && resultado.doseRecomendada > 0) {
+                setFormData(prev => ({
+                    ...prev,
+                    doseRapida: resultado.doseRecomendada.toString()
+                }));
+            } else {
+                setFormData(prev => ({
+                    ...prev,
+                    doseRapida: '0'
+                }));
+            }
+        } catch (err) {
+            console.error('Erro ao calcular dose de insulina:', err);
+        }
     };
 
     const toggleMedicamento = (medicamento) => {
@@ -251,6 +289,138 @@ const NovoRegistro = () => {
                 <section className="form-section">
                     <h3 className="section-label">Insulina</h3>
                     <Card padding="md">
+                        {/* Indicador de cálculo automático */}
+                        {insulinaInfo && (
+                            <div style={{
+                                padding: '12px',
+                                marginBottom: '16px',
+                                borderRadius: '8px',
+                                backgroundColor: insulinaInfo.alerta?.includes('CRÍTICO')
+                                    ? 'rgba(239, 68, 68, 0.15)'
+                                    : insulinaInfo.aplicar
+                                        ? 'rgba(99, 102, 241, 0.1)'
+                                        : 'rgba(107, 114, 128, 0.1)',
+                                border: insulinaInfo.alerta?.includes('CRÍTICO')
+                                    ? '2px solid #ef4444'
+                                    : '1px solid transparent'
+                            }}>
+                                <div style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '8px',
+                                    marginBottom: '8px'
+                                }}>
+                                    {insulinaInfo.alerta?.includes('CRÍTICO') ? (
+                                        <AlertTriangle size={20} color="#ef4444" />
+                                    ) : (
+                                        <Syringe size={20} color="#6366f1" />
+                                    )}
+                                    <span style={{
+                                        fontWeight: '600',
+                                        color: insulinaInfo.alerta?.includes('CRÍTICO') ? '#ef4444' : '#6366f1'
+                                    }}>
+                                        {insulinaInfo.nomeInsulina}
+                                    </span>
+                                </div>
+                                <p style={{
+                                    margin: '0 0 8px 0',
+                                    fontSize: '14px',
+                                    color: 'var(--text-primary)'
+                                }}>
+                                    HGT: <strong>{insulinaInfo.hgtAtual}</strong> →
+                                    Dose recomendada: <strong>{insulinaInfo.doseRecomendada} UI</strong>
+                                    {!insulinaInfo.aplicar && ' (não aplicar)'}
+                                </p>
+                                {insulinaInfo.alerta && (
+                                    <p style={{
+                                        margin: 0,
+                                        fontSize: '13px',
+                                        color: insulinaInfo.alerta.includes('CRÍTICO') ? '#ef4444' : '#f59e0b',
+                                        fontWeight: '500'
+                                    }}>
+                                        {insulinaInfo.alerta}
+                                    </p>
+                                )}
+
+                                {/* Contato de Emergência com telefone e botões */}
+                                {insulinaInfo.contatoEmergencia && insulinaInfo.telefoneEmergencia && (
+                                    <div style={{
+                                        marginTop: '12px',
+                                        padding: '10px',
+                                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                                        borderRadius: '8px'
+                                    }}>
+                                        <p style={{
+                                            margin: '0 0 8px 0',
+                                            fontSize: '14px',
+                                            fontWeight: '600',
+                                            color: 'var(--text-primary)'
+                                        }}>
+                                            {insulinaInfo.contatoEmergencia}
+                                        </p>
+                                        <p style={{
+                                            margin: '0 0 10px 0',
+                                            fontSize: '14px',
+                                            color: 'var(--text-secondary)'
+                                        }}>
+                                            {insulinaInfo.telefoneEmergencia}
+                                        </p>
+                                        <div style={{ display: 'flex', gap: '8px' }}>
+                                            <a
+                                                href={`tel:${insulinaInfo.telefoneEmergencia.replace(/[^\d+]/g, '')}`}
+                                                style={{
+                                                    flex: 1,
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    gap: '6px',
+                                                    padding: '10px',
+                                                    backgroundColor: '#ef4444',
+                                                    color: 'white',
+                                                    borderRadius: '8px',
+                                                    textDecoration: 'none',
+                                                    fontWeight: '600',
+                                                    fontSize: '14px'
+                                                }}
+                                            >
+                                                <Phone size={16} />
+                                                Ligar
+                                            </a>
+                                            <a
+                                                href={`https://wa.me/55${insulinaInfo.telefoneEmergencia.replace(/[^\d]/g, '')}?text=${encodeURIComponent(
+                                                    `Olá Dr. Fernando,\n\n` +
+                                                    `Estou entrando em contato sobre o Gastao Mucelin.\n\n` +
+                                                    `Alerta: ${(insulinaInfo.alerta || 'Glicemia Muito Alta').replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]/gu, '').trim()}\n` +
+                                                    `Detalhes: HGT ${insulinaInfo.hgtAtual} mg/dL\n` +
+                                                    `Data: ${new Date().toLocaleDateString('pt-BR')}\n\n` +
+                                                    `Preciso de orientação.`
+                                                )}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                style={{
+                                                    flex: 1,
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    gap: '6px',
+                                                    padding: '10px',
+                                                    backgroundColor: '#25D366',
+                                                    color: 'white',
+                                                    borderRadius: '8px',
+                                                    textDecoration: 'none',
+                                                    fontWeight: '600',
+                                                    fontSize: '14px'
+                                                }}
+                                            >
+                                                <MessageCircle size={16} />
+                                                WhatsApp
+                                            </a>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
                         <div className="form-row two-cols">
                             <Input
                                 label="Dose Lenta (unidades)"

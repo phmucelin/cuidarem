@@ -22,6 +22,7 @@ import { parseLocalDate } from '../../utils/date';
 import { calcularEstatisticas } from '../../utils/statistics';
 import Card from '../../components/Card';
 import Loading from '../../components/Loading';
+import OrientacoesDoDia from '../../components/OrientacoesDoDia';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -179,6 +180,11 @@ const Dashboard = () => {
                         </Card>
                     </div>
                 )}
+            </section>
+
+            {/* Orientações do Dia */}
+            <section className="orientacoes-section">
+                <OrientacoesDoDia hgtAtual={stats.ultimaGlicemia} />
             </section>
 
             {/* Quick Actions */}

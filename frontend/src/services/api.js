@@ -166,6 +166,88 @@ export const familiaApi = {
     },
 };
 
+// ============ ORIENTAÇÕES ============
+
+export const orientacoesApi = {
+    // Obtém orientações do momento atual
+    getAgora: async (hgt = null) => {
+        const params = hgt ? `?hgt=${hgt}` : '';
+        return request(`/api/orientacoes${params}`);
+    },
+
+    // Obtém todas as orientações do dia
+    getDia: async (hgt = null) => {
+        const params = hgt ? `?hgt=${hgt}` : '';
+        return request(`/api/orientacoes/dia${params}`);
+    },
+
+    // Obtém orientações por refeição
+    getPorRefeicao: async (tipo) => {
+        return request(`/api/orientacoes/refeicao/${tipo}`);
+    },
+
+    // Calcula dosagem de insulina baseada no HGT
+    calcularDosagemInsulina: async (hgtAtual, horario = null) => {
+        return request('/api/orientacoes/insulina/dosagem', {
+            method: 'POST',
+            body: JSON.stringify({ hgtAtual, horario }),
+        });
+    },
+
+    // Verifica alertas críticos
+    verificarAlertas: async (hgt) => {
+        return request(`/api/orientacoes/alertas?hgt=${hgt}`);
+    },
+
+    // Obtém próximos procedimentos cíclicos
+    getProximosProcedimentos: async () => {
+        return request('/api/orientacoes/procedimentos/proximos');
+    },
+
+    // Marca orientação como executada
+    marcarExecutada: async (tipo, referenciaId, observacao = null) => {
+        return request('/api/orientacoes/executar', {
+            method: 'POST',
+            body: JSON.stringify({ tipo, referenciaId, observacao }),
+        });
+    },
+};
+
+// ============ REPORTS (Análise Avançada) ============
+
+export const reportsApi = {
+    // Tempo no Alvo (Time in Range)
+    getTimeInRange: async (dias = 30) => {
+        return request(`/api/reports/time-in-range?dias=${dias}`);
+    },
+
+    // Alertas hierarquizados
+    getAlerts: async () => {
+        return request('/api/reports/alerts');
+    },
+
+    // Mapa de calor semanal
+    getHeatmap: async (semanas = 4) => {
+        return request(`/api/reports/heatmap?semanas=${semanas}`);
+    },
+
+    // Timeline do dia
+    getTimeline: async (data = null) => {
+        const params = data ? `?data=${data}` : '';
+        return request(`/api/reports/timeline${params}`);
+    },
+
+    // Efetividade da insulina
+    getInsulinEffectiveness: async (dias = 30) => {
+        return request(`/api/reports/insulin-effectiveness?dias=${dias}`);
+    },
+
+    // Padrões detectados
+    getPatterns: async (dias = 30) => {
+        return request(`/api/reports/patterns?dias=${dias}`);
+    },
+};
+
 // Tipos de refeição
 export const TIPOS_REFEICAO = {
     1: { label: 'Café da Manhã', color: 'var(--color-orange)' },
@@ -175,4 +257,5 @@ export const TIPOS_REFEICAO = {
     5: { label: 'Madrugada', color: 'var(--color-navy)' },
 };
 
-export default { authApi, registrosApi, relatorioApi, familiaApi, TIPOS_REFEICAO };
+export default { authApi, registrosApi, relatorioApi, familiaApi, orientacoesApi, reportsApi, TIPOS_REFEICAO };
+

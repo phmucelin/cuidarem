@@ -1,0 +1,707 @@
+/* ===============================================
+   REPORTS COMPONENTS STYLES
+   Mobile-first, modern design for diabetes reports
+   =============================================== */
+
+/* ==================== TIME IN RANGE ==================== */
+.time-in-range-card {
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+
+.tir-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.tir-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tir-title h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.tir-icon {
+    color: var(--color-green);
+}
+
+.tir-period {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.tir-bar-container {
+    margin-bottom: 20px;
+}
+
+.tir-bar {
+    display: flex;
+    height: 32px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--bg-primary);
+}
+
+.tir-segment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    min-width: 2px;
+}
+
+.tir-segment:hover {
+    filter: brightness(1.1);
+    transform: scaleY(1.05);
+}
+
+.tir-ideal-highlight {
+    text-align: center;
+    padding: 16px;
+    background: var(--bg-primary);
+    border-radius: 12px;
+    margin-bottom: 16px;
+}
+
+.tir-ideal-value {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.tir-ideal-label {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+.tir-trend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 13px;
+    margin-top: 8px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    display: inline-flex;
+}
+
+.tir-trend.melhora {
+    background: rgba(52, 199, 89, 0.15);
+    color: #34c759;
+}
+
+.tir-trend.piora {
+    background: rgba(255, 59, 48, 0.15);
+    color: #ff3b30;
+}
+
+.tir-trend.estavel {
+    background: rgba(255, 214, 10, 0.15);
+    color: #ffd60a;
+}
+
+.tir-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+.tir-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+.tir-legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+}
+
+.tir-meta-info {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    padding-top: 8px;
+    border-top: 1px solid var(--bg-primary);
+}
+
+/* ==================== HIERARCHICAL ALERTS ==================== */
+.hierarchical-alerts {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.alert-section {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.alert-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.alert-critical {
+    background: rgba(255, 59, 48, 0.1);
+    border: 2px solid #ff3b30;
+}
+
+.alert-critical .alert-header {
+    color: #ff3b30;
+    background: rgba(255, 59, 48, 0.15);
+}
+
+.alert-warning {
+    background: rgba(255, 214, 10, 0.1);
+    border: 2px solid #ffd60a;
+}
+
+.alert-warning .alert-header {
+    color: #b8960a;
+    background: rgba(255, 214, 10, 0.15);
+}
+
+.alert-info {
+    background: rgba(52, 199, 89, 0.08);
+    border: 1px solid rgba(52, 199, 89, 0.3);
+}
+
+.alert-info .alert-header {
+    color: #34c759;
+    background: rgba(52, 199, 89, 0.1);
+}
+
+.alert-list {
+    padding: 8px 16px 16px;
+}
+
+.alert-item {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0;
+    border-radius: 8px;
+}
+
+.alert-item:not(:last-child) {
+    border-bottom: 1px solid var(--bg-primary);
+}
+
+.alert-item.expanded {
+    background: var(--bg-primary);
+    margin: 8px -8px;
+    padding: 12px;
+    border-radius: 10px;
+}
+
+.alert-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.alert-content.clickable {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.alert-content.clickable:hover {
+    opacity: 0.8;
+}
+
+.alert-main {
+    flex: 1;
+}
+
+.alert-main strong {
+    font-size: 14px;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.alert-main p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.expand-icon {
+    color: var(--text-secondary);
+    flex-shrink: 0;
+}
+
+/* Área expandida do alerta */
+.alert-expanded {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--bg-secondary);
+    animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.alert-details {
+    margin-bottom: 12px;
+}
+
+.alert-details .detail-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.alert-recommendation {
+    font-size: 13px;
+    color: var(--text-primary);
+    margin: 8px 0 0;
+    font-style: italic;
+}
+
+.doctor-contact {
+    background: rgba(255, 59, 48, 0.08);
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.doctor-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-primary);
+    margin: 0 0 4px;
+}
+
+.doctor-phone {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.action-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-btn.call {
+    background: #ff3b30;
+    color: white;
+}
+
+.action-btn.call:hover {
+    background: #e63329;
+    transform: scale(1.02);
+}
+
+.action-btn.whatsapp {
+    background: #25D366;
+    color: white;
+}
+
+.action-btn.whatsapp:hover {
+    background: #20b858;
+    transform: scale(1.02);
+}
+
+.alert-action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.alert-action-btn.critical {
+    background: #ff3b30;
+    color: white;
+}
+
+.alert-action-btn.critical:hover {
+    background: #e63329;
+}
+
+.alert-action-btn.warning {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+.alert-action-btn.warning:hover {
+    background: var(--bg-secondary);
+}
+
+/* ==================== HEATMAP ==================== */
+.heatmap-card {
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+
+.heatmap-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.heatmap-header h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    flex: 1;
+}
+
+.heatmap-period {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.heatmap-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 16px;
+}
+
+.heatmap-row {
+    display: flex;
+    gap: 4px;
+}
+
+.heatmap-row.header {
+    margin-bottom: 4px;
+}
+
+.heatmap-cell {
+    flex: 1;
+    aspect-ratio: 1;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.heatmap-cell.label {
+    flex: 0 0 32px;
+    background: transparent;
+    font-size: 14px;
+}
+
+.heatmap-cell.day-label {
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.heatmap-cell.data {
+    color: white;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.heatmap-cell.data:hover {
+    transform: scale(1.1);
+    z-index: 1;
+}
+
+.heatmap-value {
+    font-size: 9px;
+    opacity: 0.9;
+}
+
+.heatmap-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+/* ==================== PATTERN INSIGHTS ==================== */
+.insights-card {
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+
+.insights-card.empty {
+    text-align: center;
+    padding: 32px 20px;
+    color: var(--text-secondary);
+}
+
+.insights-card.empty p {
+    margin: 12px 0 4px;
+    font-weight: 600;
+}
+
+.insights-card.empty span {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.insights-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    color: var(--color-orange);
+}
+
+.insights-header h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.patterns-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.pattern-item {
+    background: var(--bg-primary);
+    border-radius: 12px;
+    overflow: hidden;
+    border-left: 4px solid;
+}
+
+.pattern-item.critical {
+    border-color: #ff3b30;
+}
+
+.pattern-item.warning {
+    border-color: #ffd60a;
+}
+
+.pattern-item.info {
+    border-color: #34c759;
+}
+
+.pattern-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.pattern-header:hover {
+    background: var(--bg-secondary);
+}
+
+.pattern-icon {
+    flex-shrink: 0;
+}
+
+.pattern-item.critical .pattern-icon {
+    color: #ff3b30;
+}
+
+.pattern-item.warning .pattern-icon {
+    color: #ffd60a;
+}
+
+.pattern-item.info .pattern-icon {
+    color: #34c759;
+}
+
+.pattern-title {
+    flex: 1;
+}
+
+.pattern-title strong {
+    font-size: 14px;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.pattern-title p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.pattern-toggle {
+    color: var(--text-secondary);
+}
+
+.pattern-details {
+    padding: 0 16px 16px;
+    border-top: 1px solid var(--bg-secondary);
+}
+
+.detail-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    display: block;
+    margin: 12px 0 6px;
+}
+
+.pattern-causes ul {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 13px;
+}
+
+.pattern-causes li {
+    margin: 4px 0;
+    color: var(--text-primary);
+}
+
+.pattern-recommendation p {
+    font-size: 13px;
+    margin: 0;
+    padding: 10px 12px;
+    background: rgba(255, 152, 0, 0.1);
+    border-radius: 8px;
+    color: var(--text-primary);
+}
+
+.occurrences-count {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+/* ==================== SKELETON LOADING ==================== */
+.skeleton {
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-pulse {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+.skeleton-bar {
+    height: 32px;
+    background: var(--bg-primary);
+    border-radius: 16px;
+}
+
+.skeleton-alert {
+    height: 80px;
+    background: var(--bg-primary);
+    border-radius: 12px;
+}
+
+.skeleton-grid {
+    height: 150px;
+    background: var(--bg-primary);
+    border-radius: 8px;
+}
+
+.skeleton-insight {
+    height: 100px;
+    background: var(--bg-primary);
+    border-radius: 12px;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 480px) {
+    .tir-ideal-value {
+        font-size: 36px;
+    }
+
+    .tir-legend {
+        gap: 8px;
+    }
+
+    .tir-legend-item {
+        font-size: 10px;
+    }
+
+    .heatmap-cell {
+        min-height: 28px;
+        font-size: 9px;
+    }
+
+    .heatmap-cell.label {
+        flex: 0 0 24px;
+        font-size: 12px;
+    }
+}

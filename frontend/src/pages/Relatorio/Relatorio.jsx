@@ -31,6 +31,7 @@ import {
 } from '../../utils/statistics';
 import { parseLocalDate } from '../../utils/date';
 import { LineChart, BarChart, PieChart } from '../../components/Charts';
+import { TimeInRange, HierarchicalAlerts, HeatmapWeekly, PatternInsights } from '../../components/Reports';
 import Card from '../../components/Card';
 import Loading from '../../components/Loading';
 import './Relatorio.css';
@@ -251,6 +252,12 @@ const Relatorio = () => {
                 </div>
             </Card>
 
+            {/* Alertas Hierarquizados */}
+            <HierarchicalAlerts />
+
+            {/* Tempo no Alvo */}
+            <TimeInRange dias={periodo === 'semana' ? 7 : 30} />
+
             {/* Estatísticas Principais */}
             <div className="summary-grid">
                 <Card>
@@ -428,6 +435,12 @@ const Relatorio = () => {
                     </div>
                 </Card>
             )}
+
+            {/* Mapa de Calor Semanal */}
+            <HeatmapWeekly semanas={periodo === 'semana' ? 1 : 4} />
+
+            {/* Padrões Identificados */}
+            <PatternInsights dias={periodo === 'semana' ? 7 : 30} />
 
             {/* Comparação de Tendência */}
             {tendencia.recentes.total > 0 && tendencia.anteriores.total > 0 && (

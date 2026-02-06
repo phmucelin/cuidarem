@@ -1,0 +1,664 @@
+/* ===============================================
+   ORIENTAÇÕES DO DIA - Estilos
+   =============================================== */
+
+.orientacoes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Card Principal */
+.orientacoes-card {
+    padding: 20px;
+}
+
+.orientacoes-card.loading,
+.orientacoes-card.error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 150px;
+}
+
+.error-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    color: var(--color-coral);
+}
+
+.retry-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: var(--bg-input);
+    border: 1px solid var(--bg-secondary);
+    border-radius: 8px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.retry-btn:hover {
+    background: var(--bg-secondary);
+}
+
+/* Header */
+.orientacoes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.orientacoes-header.clickable {
+    cursor: pointer;
+    padding: 4px 0;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+}
+
+.orientacoes-header.clickable:hover {
+    background: var(--bg-input);
+    margin-left: -8px;
+    margin-right: -8px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pendentes-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    height: 24px;
+    padding: 0 8px;
+    background: var(--color-coral);
+    color: white;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.expand-icon {
+    display: flex;
+    align-items: center;
+    color: var(--text-secondary);
+    transition: transform 0.2s ease;
+}
+
+.orientacoes-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.dia-semana {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.refresh-btn {
+    padding: 8px;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.refresh-btn:hover {
+    background: var(--bg-input);
+    color: var(--text-primary);
+}
+
+/* Conteúdo expansível */
+.orientacoes-content {
+    animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Card colapsado */
+.orientacoes-card.collapsed .orientacoes-resumo {
+    margin-bottom: 0;
+}
+
+/* Resumo */
+.orientacoes-resumo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: 16px;
+    background: var(--bg-input);
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.resumo-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.resumo-numero {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-coral);
+}
+
+.resumo-numero.executado {
+    color: var(--color-green);
+}
+
+.resumo-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.resumo-divider {
+    width: 1px;
+    height: 40px;
+    background: var(--bg-secondary);
+}
+
+/* Lista de Orientações */
+.orientacoes-lista {
+    margin-bottom: 20px;
+}
+
+.lista-titulo {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 12px 0;
+}
+
+/* Item de Orientação */
+.orientacao-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    background: var(--bg-input);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-left: 4px solid transparent;
+}
+
+.orientacao-item:hover {
+    background: var(--bg-secondary);
+    transform: translateX(4px);
+}
+
+.orientacao-item.prioridade-1 {
+    border-left-color: var(--color-coral);
+    background: rgba(255, 107, 107, 0.1);
+}
+
+.orientacao-item.prioridade-2 {
+    border-left-color: var(--color-orange);
+}
+
+.orientacao-item.prioridade-3 {
+    border-left-color: var(--color-blue);
+}
+
+.orientacao-item.executado {
+    opacity: 0.6;
+    border-left-color: var(--color-green);
+}
+
+.orientacao-item.executado:hover {
+    transform: none;
+}
+
+.orientacao-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.orientacao-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--bg-primary);
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+.orientacao-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.orientacao-nome {
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.orientacao-dosagem {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.orientacao-instrucoes {
+    font-size: 0.75rem;
+    color: var(--color-blue);
+    font-style: italic;
+}
+
+.orientacao-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.orientacao-horario {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.orientacao-check {
+    color: var(--color-green);
+}
+
+.marcar-btn {
+    padding: 6px 14px;
+    background: var(--gradient-primary);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.marcar-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+.ver-mais-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    border: 1px dashed var(--bg-secondary);
+    border-radius: 10px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ver-mais-btn:hover {
+    border-color: var(--color-blue);
+    color: var(--color-blue);
+}
+
+/* Estado Vazio */
+.orientacoes-vazio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 32px;
+    text-align: center;
+}
+
+.orientacoes-vazio .icon-success {
+    color: var(--color-green);
+}
+
+.orientacoes-vazio p {
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* Próximas Orientações */
+.proximas-orientacoes {
+    margin-bottom: 16px;
+}
+
+.proximas-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.proxima-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: var(--bg-input);
+    border-radius: 8px;
+}
+
+.proxima-icon {
+    display: flex;
+    align-items: center;
+    opacity: 0.7;
+}
+
+.proxima-nome {
+    flex: 1;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
+.proxima-horario {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+/* Countdown Timer */
+.countdown-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    border: 1px solid transparent;
+}
+
+.countdown-container.proximo {
+    border-color: var(--color-orange);
+    background: rgba(255, 159, 67, 0.1);
+}
+
+.countdown-container.urgente {
+    border-color: var(--color-coral);
+    background: rgba(255, 107, 107, 0.15);
+    animation: pulse-urgente 2s infinite;
+}
+
+@keyframes pulse-urgente {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+}
+
+.countdown-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--bg-input);
+    border-radius: 8px;
+    color: var(--text-secondary);
+}
+
+.countdown-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.countdown-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.countdown-nome {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.countdown-tempo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+}
+
+.tempo-valor {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-blue);
+}
+
+.countdown-container.urgente .tempo-valor {
+    color: var(--color-coral);
+}
+
+.tempo-horario {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+/* Procedimento Card */
+.procedimento-card {
+    padding: 16px;
+}
+
+.procedimento-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-orange);
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.procedimento-content h4 {
+    margin: 0 0 8px 0;
+    color: var(--text-primary);
+}
+
+.procedimento-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.dias-restantes {
+    font-weight: 600;
+    color: var(--color-coral);
+}
+
+.data-prevista {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.procedimento-instrucoes {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin: 0;
+    padding: 10px;
+    background: var(--bg-input);
+    border-radius: 8px;
+}
+
+/* Alertas */
+.alertas-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.alerta-card {
+    padding: 16px;
+    border-radius: 12px;
+    border: 2px solid;
+}
+
+.alerta-card.critico {
+    background: rgba(255, 107, 107, 0.15);
+    border-color: var(--color-coral);
+}
+
+.alerta-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-coral);
+    margin-bottom: 10px;
+}
+
+.alerta-tipo {
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.alerta-mensagem {
+    margin: 0 0 12px 0;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.alerta-contato {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 12px;
+    padding: 10px;
+    background: var(--bg-input);
+    border-radius: 8px;
+}
+
+.contato-nome {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.contato-telefone {
+    color: var(--text-secondary);
+}
+
+.alerta-acoes {
+    display: flex;
+    gap: 10px;
+}
+
+.acao-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.acao-btn.ligar {
+    background: var(--color-coral);
+    color: white;
+}
+
+.acao-btn.ligar:hover {
+    filter: brightness(1.1);
+}
+
+.acao-btn.whatsapp {
+    background: #25D366;
+    color: white;
+}
+
+.acao-btn.whatsapp:hover {
+    filter: brightness(1.1);
+}
+
+/* Responsivo */
+@media (max-width: 480px) {
+    .orientacoes-resumo {
+        gap: 16px;
+        padding: 12px;
+    }
+
+    .resumo-numero {
+        font-size: 1.25rem;
+    }
+
+    .orientacao-item {
+        padding: 12px;
+    }
+
+    .orientacao-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .orientacao-nome {
+        font-size: 0.9rem;
+    }
+
+    .alerta-acoes {
+        flex-direction: column;
+    }
+}

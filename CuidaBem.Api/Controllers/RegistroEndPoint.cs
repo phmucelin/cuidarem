@@ -1,8 +1,10 @@
 using CuidaBem.Models;
 using CuidaBem.Services;
 using CuidaBem.DTOs;
+using CuidaBem.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace CuidaBem.Controllers
 {
@@ -13,11 +15,13 @@ namespace CuidaBem.Controllers
     {
         private readonly RegistroServices _registroServices;
         private readonly JwtService _jwtService;
+        private readonly AppDbContext _context;
 
-        public RegistroEndPoint(RegistroServices registroServices, JwtService jwtService)
+        public RegistroEndPoint(RegistroServices registroServices, JwtService jwtService, AppDbContext context)
         {
             _registroServices = registroServices;
             _jwtService = jwtService;
+            _context = context;
         }
 
         [HttpPost]
@@ -90,11 +94,41 @@ namespace CuidaBem.Controllers
             var reg = await _registroServices.EditaRegistro(id, registro);
             return Ok(reg);
         }
+
         [HttpGet("medicamentos/{refeicao}")]
-        public IActionResult ObterMedicamentos(Registro.TipoRef refeicao)
+        public async Task<IActionResult> ObterMedicamentos(Registro.TipoRef refeicao)
         {
-            var medicamentos = RemedioModels.MedicamentosPadrao.ObterPorRefeicao(refeicao);
-            return Ok(medicamentos);
+            // Mapear TipoRef para contexto de refeição
+            var contexto = refeicao switch
+            {
+                Registro.TipoRef.Cafe => "CAFE",
+                Registro.TipoRef.Lanche => "LANCHE",
+                Registro.TipoRef.Almoco => "ALMOCO",
+                Registro.TipoRef.Jantar => "JANTAR",
+                _ => null
+            };
+
+            // Buscar do banco de dados
+            var diaSemana = (int)DateTime.Now.DayOfWeek;
+            
+            var medicamentosDb = await _context.MedicamentoHorarios
+                .Include(h => h.Medicamento)
+                .Where(h => h.Ativo && 
+                            h.ContextoRefeicao != null && 
+                            h.ContextoRefeicao.ToUpper() == contexto &&
+                            h.DiasSemana.Contains(diaSemana))
+                .Select(h => $"{h.Medicamento.Nome} {h.Medicamento.Dosagem}")
+                .Distinct()
+                .ToListAsync();
+
+            // Se não houver medicamentos no banco, usar lista estática como fallback
+            if (medicamentosDb.Count == 0)
+            {
+                var medicamentosFallback = RemedioModels.MedicamentosPadrao.ObterPorRefeicao(refeicao);
+                return Ok(medicamentosFallback);
+            }
+
+            return Ok(medicamentosDb);
         }
     }
 }
