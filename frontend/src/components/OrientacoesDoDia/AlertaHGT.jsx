@@ -6,7 +6,6 @@ const AlertaHGT = ({ alertas }) => {
 
     const handleLigar = (telefone) => {
         if (telefone) {
-            // Limpar telefone para formato de link
             const tel = telefone.replace(/[^\d+]/g, '');
             window.location.href = `tel:${tel}`;
         }
@@ -14,7 +13,6 @@ const AlertaHGT = ({ alertas }) => {
 
     const handleWhatsApp = (telefone, alerta) => {
         if (telefone) {
-            // Limpar telefone e adicionar código do país
             let tel = telefone.replace(/[^\d]/g, '');
             if (!tel.startsWith('55')) {
                 tel = '55' + tel;

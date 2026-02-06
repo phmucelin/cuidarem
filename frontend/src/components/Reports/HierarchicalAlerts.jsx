@@ -3,7 +3,6 @@ import { AlertTriangle, AlertCircle, Info, Phone, ChevronDown, ChevronUp, Messag
 import { reportsApi } from '../../services/api';
 import './Reports.css';
 
-// Telefone do Dr. Fernando Portela
 const DR_TELEFONE = '21999782547';
 
 /**
@@ -44,7 +43,6 @@ const HierarchicalAlerts = () => {
             ? new Date(alert.dataOcorrencia).toLocaleDateString('pt-BR')
             : 'hoje';
 
-        // Clean emojis from title and message
         const title = (alert.titulo || '').replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]/gu, '').trim();
         const details = (alert.mensagem || '').replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]/gu, '').trim();
 
@@ -73,7 +71,6 @@ const HierarchicalAlerts = () => {
 
     if (!hasAlerts) return null;
 
-    // Remove emojis from titles
     const cleanTitle = (title) => {
         return title?.replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]/gu, '').trim();
     };
@@ -92,7 +89,6 @@ const HierarchicalAlerts = () => {
 
     return (
         <div className="hierarchical-alerts">
-            {/* Alertas Críticos */}
             {criticos?.length > 0 && (
                 <div className="alert-section alert-critical">
                     <div className="alert-header">
@@ -121,7 +117,6 @@ const HierarchicalAlerts = () => {
 
                                     {isExpanded && (
                                         <div className="alert-expanded">
-                                            {/* Detalhes da ocorrência */}
                                             <div className="alert-details">
                                                 <div className="detail-item">
                                                     <Calendar size={16} />
@@ -131,30 +126,26 @@ const HierarchicalAlerts = () => {
                                                             : 'Hoje'}
                                                     </span>
                                                 </div>
-                                            </div>
-
-                                            {/* Contato do médico */}
-                                            <div className="doctor-contact">
-                                                <p className="doctor-name">Dr. Fernando Portela</p>
-                                                <p className="doctor-phone">(21) 99978-2547</p>
-                                            </div>
-
-                                            {/* Botões de ação */}
-                                            <div className="action-buttons">
-                                                <button
-                                                    className="action-btn call"
-                                                    onClick={(e) => { e.stopPropagation(); handleCall(); }}
-                                                >
-                                                    <Phone size={18} />
-                                                    Ligar
-                                                </button>
-                                                <button
-                                                    className="action-btn whatsapp"
-                                                    onClick={(e) => { e.stopPropagation(); handleWhatsApp(alert); }}
-                                                >
-                                                    <MessageCircle size={18} />
-                                                    WhatsApp
-                                                </button>
+                                                <div className="doctor-contact">
+                                                    <p className="doctor-name">Dr. Fernando Portela</p>
+                                                    <p className="doctor-phone">(21) 99978-2547</p>
+                                                </div>
+                                                <div className="action-buttons">
+                                                    <button
+                                                        className="action-btn call"
+                                                        onClick={(e) => { e.stopPropagation(); handleCall(); }}
+                                                    >
+                                                        <Phone size={18} />
+                                                        Ligar
+                                                    </button>
+                                                    <button
+                                                        className="action-btn whatsapp"
+                                                        onClick={(e) => { e.stopPropagation(); handleWhatsApp(alert); }}
+                                                    >
+                                                        <MessageCircle size={18} />
+                                                        WhatsApp
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     )}
@@ -165,7 +156,6 @@ const HierarchicalAlerts = () => {
                 </div>
             )}
 
-            {/* Alertas de Atenção */}
             {atencao?.length > 0 && (
                 <div className="alert-section alert-warning">
                     <div className="alert-header">
@@ -214,7 +204,6 @@ const HierarchicalAlerts = () => {
                 </div>
             )}
 
-            {/* Alertas Informativos */}
             {informativos?.length > 0 && (
                 <div className="alert-section alert-info">
                     <div className="alert-header">

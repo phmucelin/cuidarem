@@ -45,7 +45,6 @@ const OrientacoesDoDia = ({ onHgtChange, hgtAtual = null }) => {
     useEffect(() => {
         loadOrientacoes();
 
-        // Atualizar a cada 5 minutos
         const interval = setInterval(loadOrientacoes, 5 * 60 * 1000);
         return () => clearInterval(interval);
     }, [loadOrientacoes]);
@@ -93,7 +92,6 @@ const OrientacoesDoDia = ({ onHgtChange, hgtAtual = null }) => {
 
     const formatHorario = (horarioStr) => {
         if (!horarioStr) return '';
-        // horarioStr pode ser "08:00:00" ou similar
         const parts = horarioStr.split(':');
         return `${parts[0]}:${parts[1]}`;
     };
@@ -130,14 +128,11 @@ const OrientacoesDoDia = ({ onHgtChange, hgtAtual = null }) => {
 
     return (
         <div className="orientacoes-container">
-            {/* Alertas Críticos - sempre visíveis */}
             {alertas && alertas.length > 0 && (
                 <AlertaHGT alertas={alertas} />
             )}
 
-            {/* Card Principal - Colapsável */}
             <Card className={`orientacoes-card ${isExpanded ? 'expanded' : 'collapsed'}`}>
-                {/* Header clicável */}
                 <div
                     className="orientacoes-header clickable"
                     onClick={() => setIsExpanded(!isExpanded)}
@@ -150,7 +145,6 @@ const OrientacoesDoDia = ({ onHgtChange, hgtAtual = null }) => {
                         <span className="dia-semana">{diaSemana}</span>
                     </div>
                     <div className="header-right">
-                        {/* Badge com contagem */}
                         {pendentes.length > 0 && (
                             <span className="pendentes-badge">{pendentes.length}</span>
                         )}
@@ -158,33 +152,29 @@ const OrientacoesDoDia = ({ onHgtChange, hgtAtual = null }) => {
                             {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                         </span>
                     </div>
+
+                    <div className="orientacoes-resumo">
+                        <div className="resumo-item">
+                            <span className="resumo-numero">{pendentes.length}</span>
+                            <span className="resumo-label">Pendentes</span>
+                        </div>
+                        <div className="resumo-divider" />
+                        <div className="resumo-item">
+                            <span className="resumo-numero executado">{executados}</span>
+                            <span className="resumo-label">Feitos</span>
+                        </div>
+                        <button
+                            onClick={(e) => { e.stopPropagation(); loadOrientacoes(); }}
+                            className="refresh-btn"
+                            title="Atualizar"
+                        >
+                            <RefreshCw size={16} />
+                        </button>
+                    </div>
                 </div>
 
-                {/* Resumo compacto - sempre visível */}
-                <div className="orientacoes-resumo">
-                    <div className="resumo-item">
-                        <span className="resumo-numero">{pendentes.length}</span>
-                        <span className="resumo-label">Pendentes</span>
-                    </div>
-                    <div className="resumo-divider" />
-                    <div className="resumo-item">
-                        <span className="resumo-numero executado">{executados}</span>
-                        <span className="resumo-label">Feitos</span>
-                    </div>
-                    {/* Botão de refresh no resumo */}
-                    <button
-                        onClick={(e) => { e.stopPropagation(); loadOrientacoes(); }}
-                        className="refresh-btn"
-                        title="Atualizar"
-                    >
-                        <RefreshCw size={16} />
-                    </button>
-                </div>
-
-                {/* Conteúdo expandível */}
                 {isExpanded && (
                     <div className="orientacoes-content">
-                        {/* Orientações do Momento */}
                         {pendentes.length > 0 ? (
                             <div className="orientacoes-lista">
                                 <h3 className="lista-titulo">Faça agora</h3>
@@ -216,7 +206,6 @@ const OrientacoesDoDia = ({ onHgtChange, hgtAtual = null }) => {
                             </div>
                         )}
 
-                        {/* Próximas Orientações */}
                         {proximasOrientacoes && proximasOrientacoes.length > 0 && (
                             <div className="proximas-orientacoes">
                                 <h3 className="lista-titulo">Próximas</h3>
@@ -242,7 +231,7 @@ const OrientacoesDoDia = ({ onHgtChange, hgtAtual = null }) => {
                             </div>
                         )}
 
-                        {/* Próxima orientação - Countdown */}
+
                         {proximasOrientacoes && proximasOrientacoes[0] && (
                             <CountdownTimer
                                 proximaOrientacao={proximasOrientacoes[0]}
@@ -253,7 +242,6 @@ const OrientacoesDoDia = ({ onHgtChange, hgtAtual = null }) => {
                 )}
             </Card>
 
-            {/* Procedimento Cíclico */}
             {proximoProcedimentoCiclico && (
                 <Card className="procedimento-card">
                     <div className="procedimento-header">

@@ -16,7 +16,6 @@ const CountdownTimer = ({ proximaOrientacao, formatHorario }) => {
                 return;
             }
 
-            // Parse horário (formato "HH:MM:SS" ou "HH:MM")
             const parts = horarioStr.split(':');
             const horaProxima = parseInt(parts[0], 10);
             const minProxima = parseInt(parts[1], 10);
@@ -24,7 +23,6 @@ const CountdownTimer = ({ proximaOrientacao, formatHorario }) => {
             const proximoHorario = new Date();
             proximoHorario.setHours(horaProxima, minProxima, 0, 0);
 
-            // Se já passou, mostrar 0
             if (proximoHorario <= agora) {
                 setTempoRestante('Agora!');
                 setMinutos(0);
@@ -45,7 +43,8 @@ const CountdownTimer = ({ proximaOrientacao, formatHorario }) => {
         };
 
         calcularTempoRestante();
-        const interval = setInterval(calcularTempoRestante, 60000); // Atualizar a cada minuto
+        calcularTempoRestante();
+        const interval = setInterval(calcularTempoRestante, 60000);
 
         return () => clearInterval(interval);
     }, [proximaOrientacao]);

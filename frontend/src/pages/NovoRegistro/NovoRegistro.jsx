@@ -43,13 +43,12 @@ const NovoRegistro = () => {
     const [medicamentosSelecionados, setMedicamentosSelecionados] = useState([]);
     const [insulinaInfo, setInsulinaInfo] = useState(null);
 
-    // Carregar medicamentos quando a refeição mudar
     useEffect(() => {
         const carregarMedicamentos = async () => {
             try {
                 const meds = await registrosApi.obterMedicamentos(formData.refeicao);
                 setMedicamentos(meds);
-                setMedicamentosSelecionados([]); // Resetar seleção ao mudar refeição
+                setMedicamentosSelecionados([]);
             } catch (err) {
                 console.error('Erro ao carregar medicamentos:', err);
             }
@@ -66,13 +65,11 @@ const NovoRegistro = () => {
         }));
         setError('');
 
-        // Calcular dose de insulina quando HGT for preenchido
         if (name === 'hgtAntes' && value) {
             calcularDoseInsulina(parseInt(value));
         }
     };
 
-    // Calcular dose de insulina baseada no HGT
     const calcularDoseInsulina = async (hgt) => {
         if (!hgt || hgt < 50 || hgt > 600) {
             setInsulinaInfo(null);
@@ -83,7 +80,6 @@ const NovoRegistro = () => {
             const resultado = await orientacoesApi.calcularDosagemInsulina(hgt);
             setInsulinaInfo(resultado);
 
-            // Atualizar automaticamente o campo de dose rápida
             if (resultado.aplicar && resultado.doseRecomendada > 0) {
                 setFormData(prev => ({
                     ...prev,
@@ -139,7 +135,6 @@ const NovoRegistro = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Validações
         if (!formData.horaAntes || !formData.horaDepois) {
             setError('Preencha os horários');
             return;
@@ -168,7 +163,7 @@ const NovoRegistro = () => {
                 pressaoDiastolica: parseInt(formData.pressaoDiastolica) || 0,
                 observacao: formData.observacao || null,
                 medicamentosTomados: medicamentosSelecionados,
-                cuidadorId: 0, // Será sobrescrito pelo backend
+                cuidadorId: 0,
             };
 
             await registrosApi.criar(payload);
