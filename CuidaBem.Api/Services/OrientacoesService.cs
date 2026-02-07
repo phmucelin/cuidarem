@@ -87,7 +87,7 @@ public class OrientacoesService
 
             var orientacao = new OrientacaoDTO(
                 Id: horario.Id,
-                Tipo: horario.Medicamento.Tipo.ToString().ToUpper(),
+                Tipo: TipoOrientacao.Medicamento.ToString().ToUpper(),
                 Nome: horario.Medicamento.Nome,
                 Dosagem: $"{horario.Medicamento.Dosagem} {horario.Medicamento.Unidade}",
                 Instrucoes: horario.Medicamento.Instrucoes,
@@ -97,8 +97,25 @@ public class OrientacoesService
                 Executado: executado
             );
 
+            // Passado e NÃO executado = atrasado (prioridade máxima)
+            if (horario.Horario < horaInicio && !executado)
+            {
+                // Criar nova orientação com prioridade 0 (atrasado/urgente)
+                var orientacaoAtrasada = new OrientacaoDTO(
+                    Id: horario.Id,
+                    Tipo: TipoOrientacao.Medicamento.ToString().ToUpper(),
+                    Nome: horario.Medicamento.Nome,
+                    Dosagem: $"{horario.Medicamento.Dosagem} {horario.Medicamento.Unidade}",
+                    Instrucoes: horario.Medicamento.Instrucoes,
+                    HorarioPrevisto: horario.Horario,
+                    ContextoRefeicao: horario.ContextoRefeicao,
+                    Prioridade: 0, // 0 = Atrasado (mais urgente que 1)
+                    Executado: false
+                );
+                orientacoesAgora.Add(orientacaoAtrasada);
+            }
             // Dentro da janela de tempo atual
-            if (horario.Horario >= horaInicio && horario.Horario <= horaFim)
+            else if (horario.Horario >= horaInicio && horario.Horario <= horaFim)
             {
                 orientacoesAgora.Add(orientacao);
             }
@@ -290,7 +307,7 @@ public class OrientacoesService
 
         return horarios.Select(h => new OrientacaoDTO(
             Id: h.Id,
-            Tipo: h.Medicamento.Tipo.ToString().ToUpper(),
+            Tipo: TipoOrientacao.Medicamento.ToString().ToUpper(),
             Nome: h.Medicamento.Nome,
             Dosagem: $"{h.Medicamento.Dosagem} {h.Medicamento.Unidade}",
             Instrucoes: h.Medicamento.Instrucoes,
