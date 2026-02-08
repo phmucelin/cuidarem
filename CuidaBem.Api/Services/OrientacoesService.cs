@@ -164,12 +164,48 @@ public class OrientacoesService
 
         if (humalog?.DosagensVariaveis == null || !humalog.DosagensVariaveis.Any())
         {
+            int dose = 0;
+            bool aplicar = false;
+
+            if (hgtAtual <= 160)
+            {
+                dose = 0;
+                aplicar = false;
+            }
+            else if (hgtAtual <= 200)
+            {
+                dose = 4;
+                aplicar = true;
+            }
+            else if (hgtAtual <= 240)
+            {
+                dose = 8;
+                aplicar = true;
+            }
+            else
+            {
+                dose = 10;
+                aplicar = true;
+            }
+
+            string? alertaFallback = null;
+
+            // Alerta crítico para HGT muito alto (ex: > 400) ou muito baixo (< 70)
+            if (hgtAtual > 400)
+            {
+                alertaFallback = "⚠️ ALERTA CRÍTICO: HGT Muito Alto! Contacte emergência.";
+            }
+            else if (hgtAtual < 70)
+            {
+                alertaFallback = "⚠️ ALERTA CRÍTICO: HGT Baixo (Hipoglicemia)!";
+            }
+
             return new DosageInsulinaDTO(
-                NomeInsulina: "Insulina Humalog",
+                NomeInsulina: humalog?.Nome ?? "Insulina Humalog",
                 HgtAtual: hgtAtual,
-                DoseRecomendada: 0,
-                Aplicar: false,
-                Alerta: "Configuração de dosagem não encontrada",
+                DoseRecomendada: dose,
+                Aplicar: aplicar,
+                Alerta: alertaFallback,
                 ContatoEmergencia: null,
                 TelefoneEmergencia: null
             );

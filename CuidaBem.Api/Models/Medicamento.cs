@@ -8,6 +8,7 @@ public class Medicamento
     public string Unidade { get; set; } = string.Empty; // CP, UI, Gotas, mL, Sache, Jato
     public TipoMedicamento Tipo { get; set; }
     public string? Instrucoes { get; set; }
+    public Registro.TipoRef? Refeicao { get; set; }
     public DateTime CriadoEm { get; set; } = DateTime.UtcNow;
     
     public List<MedicamentoHorario> Horarios { get; set; } = new();
@@ -15,12 +16,13 @@ public class Medicamento
 
     protected Medicamento() { }
 
-    public Medicamento(string nome, string dosagem, string unidade, TipoMedicamento tipo, string? instrucoes = null)
+    public Medicamento(string nome, string dosagem, string unidade, TipoMedicamento tipo, Registro.TipoRef? refeicao = null, string? instrucoes = null)
     {
         Nome = nome;
         Dosagem = dosagem;
         Unidade = unidade;
         Tipo = tipo;
+        Refeicao = refeicao;
         Instrucoes = instrucoes;
     }
 }
